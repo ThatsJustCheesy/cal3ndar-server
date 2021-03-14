@@ -8,7 +8,7 @@ import formidable from 'express-formidable';
 const app = express();
 app.use(cors());
 app.use(formidable());
-const port = (process.env.DEV === '1') ? 3001 : 80;
+const port = process.env.PORT;
 
 const calendarId = 'g8udaf5h5e0hrjmsmffmgcsqc0@group.calendar.google.com';
 const timeZone = 'America/Toronto';
@@ -25,7 +25,7 @@ app.get('/events', (req, res) => {
     .then(res.send.bind(res))
     .catch(() => res.status(500).send('An internal error occurred :('));
   });
-})
+});
 app.post('/events', (req, res) => {
   withAuth(req, res, (auth) => {
     const event = Object.assign({}, req.fields);
@@ -38,8 +38,8 @@ app.post('/events', (req, res) => {
     .then(res.send.bind(res))
     .catch(() => res.status(500).send('An internal error occurred :('));
   });
-})
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
-})
+});
