@@ -8,7 +8,7 @@ import formidable from 'express-formidable';
 const app = express();
 app.use(cors());
 app.use(formidable());
-const port = 3001;
+const port = (process.env.DEV === '1') ? 3001 : 80;
 
 const calendarId = 'g8udaf5h5e0hrjmsmffmgcsqc0@group.calendar.google.com';
 const timeZone = 'America/Toronto';
