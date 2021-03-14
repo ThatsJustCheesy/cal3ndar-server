@@ -13,6 +13,13 @@ const port = process.env.PORT;
 const calendarId = 'g8udaf5h5e0hrjmsmffmgcsqc0@group.calendar.google.com';
 const timeZone = 'America/Toronto';
 
+function googleCalendarDateTimeObject(clientDateTimeString) {
+  return {
+    dateTime: DateTime.fromISO(clientDateTimeString).setZone(timeZone, { keepLocalTime: true }),
+    timeZone: timeZone
+  }
+}
+
 function withAuth(req, res, callback) {
   calendar.authorize(JSON.parse(process.env.GOOGLE_CREDENTIALS), JSON.parse(process.env.GOOGLE_TOKEN))
   .then(callback)
@@ -30,8 +37,8 @@ app.post('/events', (req, res) => {
   withAuth(req, res, (auth) => {
     const event = Object.assign({}, req.fields);
     // console.log(req.fields);
-    event.start = { dateTime: DateTime.fromISO(event.start).toISO(), timeZone: timeZone };
-    event.end = { dateTime: DateTime.fromISO(event.end).toISO(), timeZone: timeZone };
+    event.start = googleCalendarDateTimeObject(event.start);
+    event.end = googleCalendarDateTimeObject(event.end);
     
     console.log(event);
     calendar.createEvent(auth, calendarId, event)
