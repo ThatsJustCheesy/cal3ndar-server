@@ -106,7 +106,7 @@ function createEvent(auth, calendarId, event) {
       console.log('There was an error contacting the Calendar service: ' + err);
       reject(err);
     } else {
-      console.log('Event created: %s', event.htmlLink);
+      console.log('Event created: %s', event);
       resolve(event);
     }
   }));
