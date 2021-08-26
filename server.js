@@ -15,7 +15,7 @@ const timeZone = 'America/Toronto';
 
 function googleCalendarDateTimeObject(clientTimestamp) {
   return {
-    dateTime: DateTime.fromSeconds(+clientTimestamp).setZone(timeZone, { keepLocalTime: true }),
+    dateTime: DateTime.fromSeconds(+clientTimestamp),
     timeZone: timeZone
   }
 }
