@@ -13,9 +13,9 @@ const port = process.env.PORT;
 const calendarId = 'g8udaf5h5e0hrjmsmffmgcsqc0@group.calendar.google.com';
 const timeZone = 'America/Toronto';
 
-function googleCalendarDateTimeObject(clientDateTimeString) {
+function googleCalendarDateTimeObject(clientTimestamp) {
   return {
-    dateTime: DateTime.fromISO(clientDateTimeString).setZone(timeZone, { keepLocalTime: true }),
+    dateTime: DateTime.fromSeconds(clientTimestamp).setZone(timeZone, { keepLocalTime: true }),
     timeZone: timeZone
   }
 }
@@ -23,7 +23,7 @@ function googleCalendarDateTimeObject(clientDateTimeString) {
 function withAuth(req, res, callback) {
   calendar.authorize(JSON.parse(process.env.GOOGLE_CREDENTIALS), JSON.parse(process.env.GOOGLE_TOKEN))
   .then(callback)
-  .catch((err) => { console.log('Error loading client secret file:', err); res.status(500).send('An internal error occurred :('); });
+  .catch((err) => { console.log(err); res.status(500).send('An internal error occurred :('); });
 }
 
 app.get('/events', (req, res) => {
